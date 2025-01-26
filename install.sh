@@ -1,3 +1,3 @@
 sudo apt update
 sudo apt upgrade
-sudo apt install geoiplookup
+sudo apt install geoip-bin -y
