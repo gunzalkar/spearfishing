@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP to Country</title>
+  <script>
+    async function getIPAndCountry() {
+      try {
+        // Fetch the user's IP from a public API
+        const ipResponse = await fetch('https://api64.ipify.org?format=json');
+        const { ip } = await ipResponse.json();
+
+        // Send the IP to the backend for geolocation lookup
+        const response = await fetch('/get-country', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ip })
+        });
+
+        const result = await response.json();
+        document.getElementById('output').innerText = `IP: ${ip}, Country: ${result.country}`;
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('output').innerText = 'Failed to fetch country information.';
+      }
+    }
+  </script>
+</head>
+<body>
+  <div style="text-align: center; margin-top: 50px;">
+    <h1>IP to Country</h1>
+    <button onclick="getIPAndCountry()">Get My Country</button>
+    <p id="output" style="margin-top: 20px; font-size: 18px;"></p>
+  </div>
+</body>
+</html>
